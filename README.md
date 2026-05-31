@@ -1,53 +1,132 @@
 # waste-cv-classifier
 
-Intelligent vision-based decision support for automated residential waste classification.
+Baseline PyTorch image-classification project for residential waste classification using transfer learning.
 
 [![Open Baseline Notebook in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ishank-dubey/waste-cv-classifier/blob/main/notebooks/01_baseline_waste_classifier.ipynb)
 
-## Purpose
+## Project Goal
 
-This repository supports PhD research on computer vision for residential waste classification. The first goal is to build a clean baseline image-classification pipeline, then extend it with reliability-focused experiments.
+This project builds a simple, readable baseline classifier for common residential waste categories:
 
-Patent-sensitive implementation details should stay out of public commits until the filing strategy is clear.
+- `organic`
+- `plastic`
+- `paper_cardboard`
+- `metal`
+- `glass`
+- `other`
+
+The first model uses **ResNet18 transfer learning** from `torchvision`. The training script saves the best validation checkpoint, and the evaluation script reports test accuracy plus a confusion matrix.
+
+Patent-sensitive implementation details should stay out of public commits until the filing strategy is clear. This repository should begin with generic baseline experiments only.
 
 ## Repository Structure
 
 ```text
 waste-cv-classifier/
-├── notebooks/              # Colab notebooks
-├── src/                    # Reusable Python code
-├── data/                   # Local dataset folders, ignored by Git
-├── outputs/                # Local experiment outputs, ignored by Git
-└── docs/                   # Research notes and non-sensitive documentation
+├── configs/
+│   └── baseline_resnet18.yaml
+├── data/
+│   ├── train/
+│   ├── val/
+│   └── test/
+├── docs/
+│   └── dataset_v1.md
+├── notebooks/
+├── outputs/
+└── src/
+    ├── dataset.py
+    ├── evaluate.py
+    ├── model.py
+    └── train.py
 ```
 
-## Colab Workflow
+## Dataset Structure
 
-Open the baseline notebook directly:
+This project uses `torchvision.datasets.ImageFolder`, so each class must be a folder.
+
+```text
+data/
+  train/
+    organic/
+    plastic/
+    paper_cardboard/
+    metal/
+    glass/
+    other/
+  val/
+    organic/
+    plastic/
+    paper_cardboard/
+    metal/
+    glass/
+    other/
+  test/
+    organic/
+    plastic/
+    paper_cardboard/
+    metal/
+    glass/
+    other/
+```
+
+Do not commit image datasets to GitHub. Keep them local or mount them from Google Drive in Colab.
+
+## Setup
+
+Create and activate a Python environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+For Colab, open the notebook:
 
 https://colab.research.google.com/github/Ishank-dubey/waste-cv-classifier/blob/main/notebooks/01_baseline_waste_classifier.ipynb
 
-Inside Colab, use:
+## Training
+
+Train the baseline ResNet18 model:
 
 ```bash
-!git clone https://github.com/Ishank-dubey/waste-cv-classifier.git
-%cd waste-cv-classifier
+python src/train.py --config configs/baseline_resnet18.yaml
 ```
 
-If the repo is already cloned in the Colab session:
+The script will:
+
+- load `data/train` and `data/val`,
+- use CPU or GPU automatically,
+- train a ResNet18 transfer-learning classifier,
+- print train and validation accuracy after each epoch,
+- save the best checkpoint to `outputs/best_resnet18.pt`.
+
+## Evaluation
+
+Evaluate the best checkpoint on the test set:
 
 ```bash
-%cd waste-cv-classifier
-!git pull
+python src/evaluate.py --config configs/baseline_resnet18.yaml
 ```
 
-## First Milestone
+The script will:
 
-Train a baseline classifier for common waste categories and record:
+- load `data/test`,
+- print test accuracy,
+- print a classification report,
+- save a confusion matrix image to `outputs/confusion_matrix.png`.
 
-- dataset name and class labels,
+## First Research Baseline
+
+Record the following for the first experiment:
+
+- dataset source,
+- number of images per class,
+- train/validation/test split,
 - model architecture,
-- training accuracy and validation accuracy,
-- precision, recall, and F1-score,
+- number of epochs,
+- best validation accuracy,
+- test accuracy,
 - confusion matrix,
-- examples of wrong classifications.
+- examples of incorrect predictions.

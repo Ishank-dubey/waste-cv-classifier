@@ -4,11 +4,17 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Local data and experiment outputs
+data/train/*
+data/val/*
+data/test/*
 data/raw/*
 data/processed/*
 outputs/*
 
 # Keep folders visible in Git
+!data/train/.gitkeep
+!data/val/.gitkeep
+!data/test/.gitkeep
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !outputs/.gitkeep
