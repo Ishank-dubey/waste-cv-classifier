@@ -1,0 +1,25 @@
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Local data and experiment outputs
+data/raw/*
+data/processed/*
+outputs/*
+
+# Keep folders visible in Git
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!outputs/.gitkeep
+
+# Python environments
+.venv/
+venv/
+env/
+
+# Large model files
+*.pt
+*.pth
+*.onnx
+*.ckpt
