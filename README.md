@@ -4,6 +4,8 @@ Baseline PyTorch image-classification project for residential waste classificati
 
 [![Open Baseline Notebook in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ishank-dubey/waste-cv-classifier/blob/main/notebooks/01_baseline_waste_classifier.ipynb)
 
+[Open one-image CNN flow notebook in Colab](https://colab.research.google.com/github/Ishank-dubey/waste-cv-classifier/blob/main/notebooks/02_single_image_cnn_flow.ipynb)
+
 ## Project Goal
 
 This project builds a simple, readable baseline classifier for common residential waste categories:
